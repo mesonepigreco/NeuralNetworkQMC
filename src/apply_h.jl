@@ -5,11 +5,8 @@
 
 Perform the QMC local energy
 """
-function local_energy(x :: State, ψ :: Function, H :: HubbardHamiltonian{T}; cache_state :: State = nothing) where T
-    if cache_state === nothing
-        cache_state = State(length(x))
-    end
-
+function local_energy(x :: State, ψ :: Function, H :: HubbardHamiltonian{T}) where T
+    new_state = State(length(x))
     
     H_ij = zero(Complex{T})
     this_state = ψ(x)

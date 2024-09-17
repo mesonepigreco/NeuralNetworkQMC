@@ -1,5 +1,8 @@
 module NeuralNetworkQMC
 
+using Zygote, Flux
+import ChainRulesCore: @ignore_derivatives
+
 abstract type Hamiltonian end
 
 
