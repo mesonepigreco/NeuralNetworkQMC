@@ -12,8 +12,12 @@ function local_energy(x :: State, ψ :: Function, H :: HubbardHamiltonian{T}) wh
     this_state = ψ(x)
     for i in 1:length(x)
         # Next site
-        i_next = (i - 1) % length(x) + 1
-        i_prev = (i + 1) % length(x) + 1
+        i_next = i+1
+        i_next = (i_next - 1) % length(x) + 1
+        i_prev = i-1
+        if i_prev == 0
+            i_prev = length(x)
+        end
 
         # Spinup forward hopping
         if x.spin_up[i] == 1 && x.spin_up[i_next] == 0 
@@ -61,7 +65,7 @@ function local_energy(x :: State, ψ :: Function, H :: HubbardHamiltonian{T}) wh
         end
     end
 
-    return H_ij / conj(this_state)
+    return H_ij / this_state
 end
 
 

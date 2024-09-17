@@ -16,7 +16,7 @@ struct State
     spin_down :: Vector{Int}
 end
 Base.length(x::State) = length(x.spin_up) 
-State(n::Int) = State(zero(Int, n), zero(Int, n))
+State(n::Int) = State(zeros(Int, n), zeros(Int, n))
 
 include("apply_h.jl")
 include("quantum_annealing.jl")
