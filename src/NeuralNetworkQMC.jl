@@ -15,4 +15,8 @@ end
 Base.length(x::State) = length(x.spin_up) 
 State(n::Int) = State(zero(Int, n), zero(Int, n))
 
+include("apply_h.jl")
+include("quantum_annealing.jl")
+
+
 end # module NeuralNetworkQMC
