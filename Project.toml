@@ -1,0 +1,7 @@
+name = "NeuralNetworkQMC"
+uuid = "12538bf0-8689-452a-94d2-7fab01e7a8b2"
+authors = ["Lorenzo Monacelli <mesonepigreco@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
