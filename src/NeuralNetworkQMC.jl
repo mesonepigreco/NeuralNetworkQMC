@@ -21,5 +21,6 @@ State(n::Int) = State(zero(Int, n), zero(Int, n))
 include("apply_h.jl")
 include("quantum_annealing.jl")
 
+export State, HubbardHamiltonian
 
 end # module NeuralNetworkQMC
