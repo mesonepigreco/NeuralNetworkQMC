@@ -26,7 +26,7 @@ function get_qmc_cost_function(n_sites :: Int, n_electrons :: Int, H :: Hamilton
         end
 
         # Use the importance sampling for the gradient
-        abs(get_total_energy(ensemble, ψ, H, ψ))
+        get_total_energy(ensemble, ψ, H, ψ)
     end
 
     return loss

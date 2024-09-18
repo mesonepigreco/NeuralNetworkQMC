@@ -80,14 +80,14 @@ with the importance sampling distribution.
 This allows to exploit differentiation.
 """
 function get_total_energy(ensemble :: Vector{State}, ψ :: Function, H :: HubbardHamiltonian{T}) where T
-    total_energy = zero(Complex{T})
+    total_energy = zero(T)
     for x in ensemble
-        total_energy += local_energy(x, ψ, H)
+        total_energy += real(local_energy(x, ψ, H))
     end
-    return abs(total_energy) / length(ensemble)
+    return total_energy / length(ensemble)
 end
 function get_total_energy(ensemble :: Vector{State}, ψ :: Function, H :: HubbardHamiltonian{T}, ψ_gen :: Function) where T
-    total_energy = zero(Complex{T})
+    total_energy = zero(T)
     #weights = zeros(T, length(ensemble))
     weights = abs2.(ψ.(ensemble)) ./ abs2.(ψ_gen.(ensemble))
     
@@ -95,9 +95,9 @@ function get_total_energy(ensemble :: Vector{State}, ψ :: Function, H :: Hubbar
     weights = weights ./ sum(weights)
 
     for i in 1:length(ensemble)
-        total_energy += local_energy(ensemble[i], ψ, H) * weights[i] 
+        total_energy += real(local_energy(ensemble[i], ψ, H)) * weights[i] 
     end
-    return abs(total_energy)
+    return total_energy
 end
 
 
