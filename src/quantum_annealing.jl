@@ -38,7 +38,7 @@ end
 Perform a quantum Monte Carlo move on the state x.
 The ``xtmp`` state is used as a temporary state.
 """
-function qmc_move!(x :: State, xtmp :: State, ψ :: Function)
+function qmc_move!(state :: State, tmp_state :: State, ψ :: Function)
     site = rand(1:length(state))
     next_site = (site-1) % length(state) + 1
     move = rand(1:2)

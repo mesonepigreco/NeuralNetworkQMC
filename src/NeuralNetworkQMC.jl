@@ -20,6 +20,7 @@ State(n::Int) = State(zeros(Int, n), zeros(Int, n))
 
 include("apply_h.jl")
 include("quantum_annealing.jl")
+include("qmc_cost.jl")
 
 export State, HubbardHamiltonian
 
