@@ -48,14 +48,14 @@ function solve_2site()
     compiled_f_tape = ReverseDiff.compile(f_tape)
 
     opt = ADAM(0.1)
-    for i in 1:100
+    for i in 1:500
         # Calculate the gradient
         
         #total_energy, back = Zygote.pullback(my_loss, θ)
         #grad = back(1)
         ReverseDiff.gradient!(all_results, compiled_f_tape, θ)
 
-        total_enerty = DiffResults.value(all_results)
+        total_energy = DiffResults.value(all_results)
         grad = DiffResults.gradient(all_results)
 
         println("$i  $total_energy  $(norm(grad))")

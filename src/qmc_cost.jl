@@ -17,18 +17,16 @@ function get_qmc_cost_function(n_sites :: Int, n_electrons :: Int, H :: Hamilton
         ensemble = [State(n_sites) for i in 1:n_samples]
     
         quantum_annealing!(ensemble, state, ψ; qmc_keys...)
-
         # Print the value of the probability
         println("ψ(state): ")
         all_mod = abs2.(ψ.(ensemble))
-        println(all_mod ./ sum(all_mod))
 
         for i in 1:length(ensemble)
             println("$i    up: $(ensemble[i].spin_up) down: $(ensemble[i].spin_down)   psi: $(ψ(ensemble[i]))  prob:$(all_mod[i]/sum(all_mod))")
         end
 
         # Use the importance sampling for the gradient
-        get_total_energy(ensemble, ψ, H, ψ)
+        abs(get_total_energy(ensemble, ψ, H, ψ))
     end
 
     return loss

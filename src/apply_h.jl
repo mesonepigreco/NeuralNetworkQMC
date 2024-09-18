@@ -84,7 +84,7 @@ function get_total_energy(ensemble :: Vector{State}, ψ :: Function, H :: Hubbar
     for x in ensemble
         total_energy += local_energy(x, ψ, H)
     end
-    return total_energy / length(ensemble)
+    return abs(total_energy) / length(ensemble)
 end
 function get_total_energy(ensemble :: Vector{State}, ψ :: Function, H :: HubbardHamiltonian{T}, ψ_gen :: Function) where T
     total_energy = zero(Complex{T})
@@ -97,7 +97,7 @@ function get_total_energy(ensemble :: Vector{State}, ψ :: Function, H :: Hubbar
     for i in 1:length(ensemble)
         total_energy += local_energy(ensemble[i], ψ, H) * weights[i] 
     end
-    return total_energy
+    return abs(total_energy)
 end
 
 
