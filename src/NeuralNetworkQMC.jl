@@ -17,11 +17,12 @@ struct State
 end
 Base.length(x::State) = length(x.spin_up) 
 State(n::Int) = State(zeros(Int, n), zeros(Int, n))
+get_n_electrons(x::State) = sum(x.spin_up) + sum(x.spin_down)
 
 include("apply_h.jl")
 include("quantum_annealing.jl")
 include("qmc_cost.jl")
 
-export State, HubbardHamiltonian
+export State, HubbardHamiltonian, get_n_electrons
 
 end # module NeuralNetworkQMC
