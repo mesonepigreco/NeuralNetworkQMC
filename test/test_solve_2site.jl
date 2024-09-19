@@ -33,7 +33,7 @@ function solve_2site()
     θ, func = Flux.destructure(ψ_model)
 
     α_reg = 0.5
-    β_reg = 0.2
+    β_reg = 1.2
 
     # Define the loss as a function of the parameters
     function my_loss(params)
@@ -59,6 +59,7 @@ function solve_2site()
     opt = ADAM(0.1)
     energy = []
     gradient = []
+    nθ = []
     for i in 1:500
         # Calculate the gradient
         
@@ -69,10 +70,11 @@ function solve_2site()
         total_energy = DiffResults.value(all_results) - β_reg * L2_regularization(θ)
         grad = DiffResults.gradient(all_results)
 
-        println("$i  $total_energy  $(norm(grad))")
+        println("$i  $total_energy  $(norm(grad)) $(norm(θ))")
 
         push!(energy, total_energy)
         push!(gradient, norm(grad))
+        push!(nθ, norm(θ))
 
         # Update the parameters
         Flux.update!(opt, θ, grad)
@@ -81,7 +83,7 @@ function solve_2site()
     # Save the results
     open("energy.dat", "w") do io
         for i in 1:length(energy)
-            println(io, "$i  $(energy[i])  $(gradient[i])")
+            println(io, "$i  $(energy[i])  $(gradient[i]) $(nθ[i])")
         end
     end
 end
