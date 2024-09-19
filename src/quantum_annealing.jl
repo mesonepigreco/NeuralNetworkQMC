@@ -58,7 +58,7 @@ function qmc_move!(state :: State, tmp_state :: State, ψ :: Function)
     # Calculate the acceptance probability
     p = abs(ψ(tmp_state))^2 / abs(ψ(state))^2
     if rand() < p
-        println("Accepted: $(tmp_state.spin_up) $(tmp_state.spin_down)")
+        # println("Accepted: $(tmp_state.spin_up) $(tmp_state.spin_down)")
         state.spin_up .= tmp_state.spin_up
         state.spin_down .= tmp_state.spin_down
     else

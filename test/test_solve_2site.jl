@@ -7,7 +7,7 @@ using DiffResults
 function solve_2site()
     N_sites = 2
     N_electrons = 2
-    N_samples = 20
+    N_samples = 100
 
     N_thermalization = 100
     N_steps = 100
@@ -48,7 +48,9 @@ function solve_2site()
     compiled_f_tape = ReverseDiff.compile(f_tape)
 
     opt = ADAM(0.1)
-    for i in 1:2500
+    energy = []
+    gradient = []
+    for i in 1:500
         # Calculate the gradient
         
         #total_energy, back = Zygote.pullback(my_loss, θ)
@@ -60,8 +62,18 @@ function solve_2site()
 
         println("$i  $total_energy  $(norm(grad))")
 
+        push!(energy, total_energy)
+        push!(gradient, norm(grad))
+
         # Update the parameters
         Flux.update!(opt, θ, grad)
+    end
+
+    # Save the results
+    open("energy.dat", "w") do io
+        for i in 1:length(energy)
+            println(io, "$i  $(energy[i])  $(gradient[i])")
+        end
     end
 end
 
