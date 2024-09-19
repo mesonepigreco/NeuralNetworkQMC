@@ -4,10 +4,16 @@ using LinearAlgebra
 using ReverseDiff
 using DiffResults
 
+function L1_regularization(params)
+    return sum(abs.(params))
+end
+
+L2_regularization(params) = sum(abs2.(params))
+
 function solve_2site()
     N_sites = 2
     N_electrons = 2
-    N_samples = 100
+    N_samples = 50
 
     N_thermalization = 100
     N_steps = 100
@@ -26,11 +32,14 @@ function solve_2site()
     # Destructure the model
     θ, func = Flux.destructure(ψ_model)
 
+    α_reg = 0.5
+    β_reg = 0.2
+
     # Define the loss as a function of the parameters
     function my_loss(params)
-        println("params: ", params)
-        @show params
-        println("type(params): ", typeof(params))
+        # rintln("params: ", params)
+        # @show params
+        # println("type(params): ", typeof(params))
         function ψ(x :: State) :: Complex
             x_ = [x.spin_up; x.spin_down]
             my_ψ = func(params)
@@ -38,7 +47,7 @@ function solve_2site()
             return my_ψ_val[1] + im * my_ψ_val[2]
         end
 
-        loss(ψ)
+        loss(ψ) + β_reg * L2_regularization(params)
     end
 
     # Prepare the gradient tape
@@ -57,7 +66,7 @@ function solve_2site()
         #grad = back(1)
         ReverseDiff.gradient!(all_results, compiled_f_tape, θ)
 
-        total_energy = DiffResults.value(all_results)
+        total_energy = DiffResults.value(all_results) - β_reg * L2_regularization(θ)
         grad = DiffResults.gradient(all_results)
 
         println("$i  $total_energy  $(norm(grad))")

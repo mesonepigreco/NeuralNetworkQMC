@@ -15,7 +15,9 @@ function quantum_annealing!(ensemble :: Vector{State}, state :: State, ψ :: Fun
 
     # Allowed moves are: flip a spin, swap two states
     for i in 1:thermalization_steps
-        qmc_move!(state, tmp_state, ψ)
+        for i in 1:length(state)
+            qmc_move!(state, tmp_state, ψ)
+        end
     end
 
     # Store the first configuration
@@ -24,7 +26,9 @@ function quantum_annealing!(ensemble :: Vector{State}, state :: State, ψ :: Fun
 
     for i in 2:length(ensemble)
         for j in 1:n_steps_between_samples
-            qmc_move!(state, tmp_state, ψ)
+            for k in 1:length(state)
+                qmc_move!(state, tmp_state, ψ)
+            end
         end
         ensemble[i].spin_up .= state.spin_up
         ensemble[i].spin_down .= state.spin_down
