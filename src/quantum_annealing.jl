@@ -15,7 +15,7 @@ function quantum_annealing!(ensemble :: Vector{State}, state :: State, ψ :: Fun
 
     # Allowed moves are: flip a spin, swap two states
     for i in 1:thermalization_steps
-        for i in 1:length(state)
+        for j in 1:length(state)
             qmc_move!(state, tmp_state, ψ)
         end
     end
@@ -60,7 +60,7 @@ function qmc_move!(state :: State, tmp_state :: State, ψ :: Function)
     end
 
     # Calculate the acceptance probability
-    p = abs(ψ(tmp_state))^2 / abs(ψ(state))^2
+    p = abs(ψ(tmp_state) / ψ(state))^2
     if rand() < p
         # println("Accepted: $(tmp_state.spin_up) $(tmp_state.spin_down)")
         state.spin_up .= tmp_state.spin_up

@@ -16,6 +16,7 @@ function get_qmc_cost_function(n_sites :: Int, n_electrons :: Int, H :: Hamilton
 
         ensemble = [State(n_sites) for i in 1:n_samples]
     
+        @info "Annealing"
         quantum_annealing!(ensemble, state, ψ; qmc_keys...)
         # Print the value of the probability
         println("ψ(state): ")
